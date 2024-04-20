@@ -1,0 +1,63 @@
+DAS MCode Change Log
+
+- MCode v5.9.2 -
+Temporary build that incorporates pixel x and pixel y output for DAS measurements.
+
+- MCode v5.9.1 -
+Added toggle to reformat and output all measurements regardless of GPS Lock.
+Added GPS lock to reformatted output.
+Added RSSI, RSRQ, RSRP, SyncSL, and SyncQuality to the reformatted LTE output.
+Reformatted output is given a height of 0 because the height is only within the waypoint files, which are not used when reformatting.
+
+- MCode v5.8.0 -
+Any fatal errors (no measurements, additional scanner IDs, etc) that occur during interpolation or when reformatting the data are logged before continuing with the rest of the files.
+
+- MCode v5.7.0 -
+Heights are rounded to nearest tenth.
+
+- MCode v5.6.1 -
+Bug fix: Files were not reformatted properly due to extension mismatch.
+
+- MCode v5.6.0 -
+Optimized DAS EcIo correction algorithm.
+Added additional logging.
+Corrupt data is processed as much as possible.  Corrupt files are logged.
+Additional ARFCN field in RedEye analysis export format.
+Scanner IDs of 0 are allowed.  This can happen when dropping a waypoint after the scanner is disconnected from Columbus.
+
+- MCode v5.5.2 -
+Bug fix:  DAS measurements were not binned by collection round correctly.
+Bug fix:  DAS measurements with low EcIo within collection round pair were not removed correctly.
+
+- MCode v5.5.0 -
+Bug fix:  The GPS lock status of a wcdma measurement was not read in correctly.  This would affect the reformatting of wcmda measurements.
+When reading in text files we only validate to make sure there are the minimum number of columns needed, i.e. additional columns are allowed.
+
+- MCode v5.4.0 -
+Added correction for fluctuations in DAS EcIo caused by gain algorithm.
+
+- MCode v5.3.0 -
+Changed output to match Redeye analysis import format.
+
+- MCode v5.0.0 -
+Major code overhaul.
+Support for macro data.
+Interpolation and reformatting measurements have been separated out into separate windows.
+
+- MCode v4.3.1 - 
+Remove any out of date measurements that appear at the beginning of a collection file.  This can occur due to a bug in Columbus (DAS Control).  If more than three collection rounds are found out of date an error is thrown and processing is stopped. 
+
+- MCode v4.2.1 - 
+To account for SL differences between the WIND3G calculated gain value and the constant high gain value we adjust the interpolated lat/lons so that each pair of constant/calculated gains are given the same lat/lon. 
+
+- MCode v4.1.2 - 
+Bug fix: Nanoseconds is now included in the header of the aggregate file.
+
+- MCode v4.1.1 - 
+Support for a new format with encrypted signal levels - both input and output.  
+The application's title will say "Encryption Bypassed" if it's configured to bypass encryption when outputting data.
+Fleshed out help dialog box.
+Changed "Interpolated into one file" button so that it reads "Aggregate".
+Visual feedback in the output window for files that are not interpolated, i.e. we are reformatting the data and using GPS coordinates directly.
+Added additional feedback after processing finishes - specifies which options were checked. 
+Added support to install .Net 4.5 if the computer does not have it installed already. 

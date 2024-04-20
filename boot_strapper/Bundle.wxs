@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:bal="http://schemas.microsoft.com/wix/BalExtension">
+	<Bundle Name="MCode - DAS" Version="1.0.0.0" Manufacturer="DASPoint" UpgradeCode="7ebee219-1f7e-448f-bcc4-a9dad2e8324d">
+    <BootstrapperApplicationRef Id="WixStandardBootstrapperApplication.HyperlinkLicense" >
+    <bal:WixStandardBootstrapperApplication LicenseUrl=""  />
+    </BootstrapperApplicationRef>
+		<Chain>
+      <PackageGroupRef Id="NetFx45Web"/>
+      <MsiPackage Id="MCode" SourceFile="$(var.WixSetupMcode.TargetPath)"/>
+		</Chain>
+	</Bundle>
+</Wix>
