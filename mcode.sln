@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcode", "mcode\mcode.csproj", "{C4A95514-42FB-460F-B73F-800FE3FC10D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MCodeGUI", "MCodeGUI\MCodeGUI.csproj", "{30C3BB26-E201-4CF6-BAFE-CAFDDEB6FAE0}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MCodeSetup", "MCodeSetup\MCodeSetup.vdproj", "{CA9D326B-159F-4E36-8C76-54E5CBB855D1}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "WixSetupMcode", "WixSetupMcode\WixSetupMcode.wixproj", "{563DECE4-5A49-4B0B-AB1F-1A90B01BB7A8}"
 EndProject
@@ -57,15 +55,6 @@ Global
 		{30C3BB26-E201-4CF6-BAFE-CAFDDEB6FAE0}.Release|Win32.ActiveCfg = Release|x86
 		{30C3BB26-E201-4CF6-BAFE-CAFDDEB6FAE0}.Release|x86.ActiveCfg = Release|x86
 		{30C3BB26-E201-4CF6-BAFE-CAFDDEB6FAE0}.Release|x86.Build.0 = Release|x86
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Debug|Any CPU.ActiveCfg = Debug
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Debug|Mixed Platforms.ActiveCfg = Debug
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Debug|Win32.ActiveCfg = Debug
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Debug|x86.ActiveCfg = Debug
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Release|Any CPU.ActiveCfg = Release
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Release|Mixed Platforms.ActiveCfg = Release
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Release|Mixed Platforms.Build.0 = Release
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Release|Win32.ActiveCfg = Release
-		{CA9D326B-159F-4E36-8C76-54E5CBB855D1}.Release|x86.ActiveCfg = Release
 		{563DECE4-5A49-4B0B-AB1F-1A90B01BB7A8}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{563DECE4-5A49-4B0B-AB1F-1A90B01BB7A8}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{563DECE4-5A49-4B0B-AB1F-1A90B01BB7A8}.Debug|Mixed Platforms.Build.0 = Debug|x86

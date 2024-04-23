@@ -1,113 +1,86 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+﻿<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs" xmlns:ui="http://wixtoolset.org/schemas/v4/wxs/ui">
   
-	<Product Id="{0FB28ED2-5046-4717-BACD-DC6DD2ADC00A}" 
-           Name="MCode" 
-           Language="1033" 
-           Version="!(bind.FileVersion.FILE_MCodeGUI_EXE)" 
-           Manufacturer="DASPoint" 
-           UpgradeCode="eab2cf5e-91f5-4629-a1c6-ffa8cd9654bb">
-		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+	<Package Name="MCode" Language="1033" Version="!(bind.FileVersion.FILE_MCodeGUI_EXE)" Manufacturer="DASPoint" UpgradeCode="eab2cf5e-91f5-4629-a1c6-ffa8cd9654bb" InstallerVersion="200" ProductCode="{0FB28ED2-5046-4717-BACD-DC6DD2ADC00A}">
+		
 
-    <UIRef Id="WixUI_Advanced"/>
+    <ui:WixUI Id="WixUI_Advanced" />
     <Property Id="ApplicationFolderName" Value="DASPoint\MCode" />
     <Property Id="WixAppFolder" Value="WixPerMachineFolder" />
-    <WixVariable Id="WixUISupportPerUser" Value="0" />
     
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate EmbedCab ="yes"/>
+		<MediaTemplate EmbedCab="yes" />
 
 		<Feature Id="ProductFeature" Title="MCode" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
-      <ComponentRef Id="CMP_ApplicationMenuShortcut"/>
-      <ComponentRef Id="CMP_ApplicationDesktopShortcut"/>
+      <ComponentRef Id="CMP_ApplicationMenuShortcut" />
+      <ComponentRef Id="CMP_ApplicationDesktopShortcut" />
 		</Feature>
-	</Product>
+	</Package>
 
 	<Fragment>
-		<Directory Id="TARGETDIR" Name="SourceDir">
-			<Directory Id="ProgramFilesFolder">
-        <Directory Id="MANUFACTURERFOLDER" Name="DASPoint" >
+	  <StandardDirectory Id="ProgramFilesFolder">
+      </StandardDirectory>
+        <Directory Id="MANUFACTURERFOLDER" Name="DASPoint">
           <Directory Id="APPLICATIONFOLDER" Name="MCode" />
         </Directory>
-        <Directory Id="ProgramMenuFolder">
+        <StandardDirectory Id="ProgramMenuFolder">
           <Directory Id="ManufacturerMenuShortcut" Name="DASPoint">
-            <Directory Id="ApplicationMenuShortcut" Name="MCode"/>
+            <Directory Id="ApplicationMenuShortcut" Name="MCode" />
           </Directory>
-        </Directory>
-        <Directory Id="DesktopFolder">
+        </StandardDirectory>
+        <StandardDirectory Id="DesktopFolder">
           <!--<Directory Id="ManufacturerDesktopShortcut" Name="DASPoint">
             <Directory Id="ApplicationDesktopShortcut" Name="MCode"/>
           </Directory>-->
-        </Directory>
-      </Directory>
-    </Directory>
-	</Fragment>
+        </StandardDirectory>
+    </Fragment>
 
 	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="APPLICATIONFOLDER" >
+		<ComponentGroup Id="ProductComponents" Directory="APPLICATIONFOLDER">
 
-      <Component Id="CMP_MCodeGui" Guid="{714240A0-BDED-43D2-A6F4-08AEA3D3E1B3}" >
-        <File Id="FILE_MCodeGUI_EXE" Name="$(var.MCodeGUI.TargetFileName)" Source="$(var.MCodeGUI.TargetPath)" KeyPath="yes"/>
+      <Component Id="CMP_MCodeGui" Guid="{714240A0-BDED-43D2-A6F4-08AEA3D3E1B3}">
+        <File Id="FILE_MCodeGUI_EXE" Name="$(var.MCodeGUI.TargetFileName)" Source="$(var.MCodeGUI.TargetPath)" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_REScanMCode" Guid="{1BDF09FF-C68B-46AB-B336-384E35F70A47}" >
-        <File Id="FILE_REScanMCode_DLL" Name="$(var.REScan.MCode.TargetFileName)" Source="$(var.REScan.MCode.TargetPath)" KeyPath="yes"/>
+      <Component Id="CMP_REScanMCode" Guid="{1BDF09FF-C68B-46AB-B336-384E35F70A47}">
+        <File Id="FILE_REScanMCode_DLL" Name="$(var.REScan.MCode.TargetFileName)" Source="$(var.REScan.MCode.TargetPath)" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_REScanIO" Guid="{3B69E9E8-9540-49B2-8A82-F615FE4C2943}" >
-        <File Id="FILE_REScanIO_DLL" Name="$(var.REScan.IO.TargetFileName)" Source="$(var.REScan.IO.TargetPath)" KeyPath="yes"/>
+      <Component Id="CMP_REScanIO" Guid="{3B69E9E8-9540-49B2-8A82-F615FE4C2943}">
+        <File Id="FILE_REScanIO_DLL" Name="$(var.REScan.IO.TargetFileName)" Source="$(var.REScan.IO.TargetPath)" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_REScanCommon" Guid="{47F04A69-F22B-42F7-841F-271E62F6695F}" >
-        <File Id="FILE_REScanCommon_DLL" Name="$(var.REScan.Common.TargetFileName)" Source="$(var.REScan.Common.TargetPath)" KeyPath="yes"/>
+      <Component Id="CMP_REScanCommon" Guid="{47F04A69-F22B-42F7-841F-271E62F6695F}">
+        <File Id="FILE_REScanCommon_DLL" Name="$(var.REScan.Common.TargetFileName)" Source="$(var.REScan.Common.TargetPath)" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_REScanData" Guid="{98F63E09-9134-4F9B-AFA3-2D81867D7D21}" >
-        <File Id="FILE_REScanData_DLL" Name="$(var.REScan.Data.TargetFileName)" Source="$(var.REScan.Data.TargetPath)" KeyPath="yes"/>
+      <Component Id="CMP_REScanData" Guid="{98F63E09-9134-4F9B-AFA3-2D81867D7D21}">
+        <File Id="FILE_REScanData_DLL" Name="$(var.REScan.Data.TargetFileName)" Source="$(var.REScan.Data.TargetPath)" KeyPath="yes" />
       </Component>
-      <Component Id="CMP_MCodeGui_AppConfig" Guid="{EDC8EE41-FFCB-4A52-917C-8DFB607A74F4}" >
-        <File Id="FILE_MCodeGui_Appconfig" Name="$(var.MCodeGUI.TargetFileName).config" Source="$(var.MCodeGUI.TargetDir)" KeyPath="yes"/>
+      <Component Id="CMP_MCodeGui_AppConfig" Guid="{EDC8EE41-FFCB-4A52-917C-8DFB607A74F4}">
+        <File Id="FILE_MCodeGui_Appconfig" Name="$(var.MCodeGUI.TargetFileName).config" Source="$(var.MCodeGUI.TargetDir)" KeyPath="yes" />
       </Component>
 
     </ComponentGroup>
   </Fragment>
 
   <Fragment>
-    <Icon Id="mcode.ico" SourceFile="..\support_files\mcode.ico"/>
+    <Icon Id="mcode.ico" SourceFile="..\support_files\mcode.ico" />
     
-    <DirectoryRef Id ="ApplicationMenuShortcut" >
+    <DirectoryRef Id="ApplicationMenuShortcut">
       <Component Id="CMP_ApplicationMenuShortcut" Guid="{0BBB9CA3-1D84-498D-BB3C-0D115A1A6C83}">
 
-        <Shortcut Id="MCodeMenuShortcut"
-                  Name="MCode"
-                  Description="RedEye MCode Interpolation Software"
-                  Target="[APPLICATIONFOLDER]$(var.MCodeGUI.TargetFileName)"
-                  Icon="mcode.ico"/>
+        <Shortcut Id="MCodeMenuShortcut" Name="MCode" Description="RedEye MCode Interpolation Software" Target="[APPLICATIONFOLDER]$(var.MCodeGUI.TargetFileName)" Icon="mcode.ico" />
 
         <CreateFolder Directory="ApplicationMenuShortcut" />
         <CreateFolder Directory="ManufacturerMenuShortcut" />
                       
-        <RemoveFolder Id="RemoveApplicationMenuShortcut"
-                      Directory="ApplicationMenuShortcut"
-                      On="uninstall" />
-        <RemoveFolder Id="RemoveManufacturerMenuShortcut" 
-                      Directory="ManufacturerMenuShortcut"
-                      On="uninstall" />
+        <RemoveFolder Id="RemoveApplicationMenuShortcut" Directory="ApplicationMenuShortcut" On="uninstall" />
+        <RemoveFolder Id="RemoveManufacturerMenuShortcut" Directory="ManufacturerMenuShortcut" On="uninstall" />
 
-        <RegistryValue 
-          Root="HKCU"
-          Key="Software\Microsoft\MCode\StartMenuShortcut"
-          Name="installed"
-          Type="integer"
-          Value="1"
-          KeyPath="yes" />
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\MCode\StartMenuShortcut" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id ="DesktopFolder" >
+    <StandardDirectory Id="DesktopFolder">
       <Component Id="CMP_ApplicationDesktopShortcut" Guid="{02D6F221-2B62-4366-8637-7DB70B31ACF8}">
-        <Shortcut Id="MCodeDesktopShortcut"
-                  Name="MCode"
-                  Description="RedEye MCode Interpolation Software"
-                  Target="[APPLICATIONFOLDER]$(var.MCodeGUI.TargetFileName)"
-                  Icon="mcode.ico"/>
+        <Shortcut Id="MCodeDesktopShortcut" Name="MCode" Description="RedEye MCode Interpolation Software" Target="[APPLICATIONFOLDER]$(var.MCodeGUI.TargetFileName)" Icon="mcode.ico" />
 
         <!--<RemoveFolder Id="RemoveManufacturerMenuShortcut"
                         Directory="ManufacturerMenuShortcut"
@@ -116,15 +89,9 @@
                         Directory="ApplicationMenuShortcut"
                         On="uninstall" />-->
 
-        <RegistryValue
-          Root="HKCU"
-          Key="Software\Microsoft\MCode\DesktopShortcut"
-          Name="installed"
-          Type="integer"
-          Value="1"
-          KeyPath="yes" />
+        <RegistryValue Root="HKCU" Key="Software\Microsoft\MCode\DesktopShortcut" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
-    </DirectoryRef>
+    </StandardDirectory>
     
     
     </Fragment>
