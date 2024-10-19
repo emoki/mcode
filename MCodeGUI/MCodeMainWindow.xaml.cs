@@ -15,6 +15,7 @@ using System.IO;
 using REScan.Common;
 using REScan.Data;
 using REScan.IO;
+using System.Text.RegularExpressions;
 
 
 namespace MCodeGUI {
@@ -34,6 +35,7 @@ namespace MCodeGUI {
         ProcessStats GsmStats;
         ProcessStats WcdmaStats;
         ProcessStats LteStats;
+        ProcessStats PctelStats;
 
         enum DataAggregation {
             Tech,
@@ -145,6 +147,7 @@ namespace MCodeGUI {
                 var gsmIO = new GsmIO();
                 var wcdmaIO = new WcdmaIO();
                 var lteIO = new LteIO();
+                var pctelIO = new PctelIO();
 
                 var InterpolationFiles = InterpolationFilesListBox.Items.OfType<string>().ToList();
                 foreach(var wptFileName in InterpolationFiles) {
@@ -182,7 +185,12 @@ namespace MCodeGUI {
                             } catch (Exception ex) {
                                 Log("Error while interpolating LTE using \"" + wptFileName + "\": " + ex.Message);
                             }
-                        }
+                            try { 
+                                OutputInterpolatedFile(aggregatedFileName, AggroType, interpolator, pctelIO, wptFileName, wptMeasurements, PctelStats);
+                            } catch (Exception ex) {
+                                Log("Error while interpolating PcTel using \"" + wptFileName + "\": " + ex.Message);
+                            }
+                    }
                 }
 
                 var ReformatFiles = ReformatFilesListBox.Items.OfType<string>().ToList();
@@ -211,6 +219,12 @@ namespace MCodeGUI {
                     } catch (Exception ex) {
                         Log("Error while reformatting \"" + measFileName + "\": " + ex.Message);
                     }
+
+                    try {
+                        OutputReformattedFile(aggregatedFileName, AggroType, pctelIO, measFileName, PctelStats);
+                    } catch (Exception ex) {
+                        Log("Error while reformatting \"" + measFileName + "\": " + ex.Message);
+                    }
                 }
                 OutputIOLogs(dasIO, gsmIO, wcdmaIO, lteIO);
 
@@ -231,19 +245,23 @@ namespace MCodeGUI {
         }
 
         private void OutputInterpolatedFile<T>(string aggregatedFileName, DataAggregation aggregation, REScan.MCode.Interpolator interpolator, DataIO<T> io, 
-            string wptFileName, List<Waypoint> wptMeasurements, ProcessStats stats) where T : Measurement {
+                string wptFileName, List<Waypoint> wptMeasurements, ProcessStats stats) where T : Measurement {
             var measFileName = FileUtility.FindValidFile(wptFileName, io.Extension());
             if(!String.IsNullOrEmpty(measFileName)) {
-                var meta = new Meta(measFileName);
+                var isPctelHighBand = Convert.ToBoolean(PctelIsHighBand.IsChecked);
+                var meta = new Meta(measFileName, isPctelHighBand);
                 var measList = io.ReadFile(measFileName);
 
-                interpolator.Interpolate(ref measList, wptMeasurements);
+                // var timeOffset = (long)TimeSpan.Parse(PctelTimeOffset.Text).TotalSeconds;
+                var startTimeOffset = Convert.ToInt64(PctelStartTime.Text);
+
+                interpolator.Interpolate(ref measList, wptMeasurements, startTimeOffset);
                 
                 var interpolatedMeasList = measList.FindAll(meas => meas.IsInterpolated).ToList();
 
                 switch(aggregation) {
                     case DataAggregation.Tech: {
-                        var outputFileName = System.IO.Path.ChangeExtension(aggregatedFileName, io.REAnalysisExtension());
+                        var outputFileName = System.IO.Path.ChangeExtension(aggregatedFileName, io.REAnalysisExtension(true));
                         var append = OutputFileNames.Exists(x => x == outputFileName);
                         if(!append)
                             OutputFileNames.Add(outputFileName);
@@ -256,7 +274,7 @@ namespace MCodeGUI {
                         foreach(var group in heightLists) {
                             var outputFileName = System.IO.Path.GetDirectoryName(aggregatedFileName) + "\\" +
                                 System.IO.Path.GetFileNameWithoutExtension(aggregatedFileName) + "_height_" + group.First().Height.ToString();
-                            outputFileName = outputFileName + "." + io.REAnalysisExtension();
+                            outputFileName = outputFileName + "." + io.REAnalysisExtension(true);
                             var append = OutputFileNames.Exists(x => x == outputFileName);
                             if(!append)
                                 OutputFileNames.Add(outputFileName);
@@ -279,7 +297,8 @@ namespace MCodeGUI {
                     return;
                 }
 
-                var meta = new Meta(measFileName);
+                var isPctelHighBand = Convert.ToBoolean(PctelIsHighBand.IsChecked);
+                var meta = new Meta(measFileName, isPctelHighBand);
                 var measList = io.ReadFile(measFileName);
                 var outputList = measList;
                 if(!Convert.ToBoolean(IgnoreGpsLock.IsChecked))
@@ -324,8 +343,8 @@ namespace MCodeGUI {
         }
 
         private void ChooseReformatFilesButton_Click(object sender, RoutedEventArgs e) {
-            var extension = "*.dmm;*.wnd;*.wnu;*.wnl";
-            var filter = "All Measurement Files|*.dmm;*.wnd;*.wnu;*.wnl|All Files|*.*";
+            var extension = "*.dmm;*.wnd;*.wnu;*.wnl;pctel.csv";
+            var filter = "All Measurement Files|*.dmm;*.wnd;*.wnu;*.wnl;*.pctel.csv|All Files|*.*";
             SelectDataFiles(extension, filter, ReformatFilesListBox);
         }
 
