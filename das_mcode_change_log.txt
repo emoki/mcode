@@ -1,5 +1,14 @@
 DAS MCode Change Log
 
+- MCode v5.11.1 -
+Updated Pctel format to include larger header.
+
+- MCode v5.10.1 -
+Added support for Pctel csv files. 
+Specific format must be "Time,Longitude,Latitude,CW Channel,CW RSSI (dB)" and the filename must match the waypoint base filename + '.pctel.csv'.
+Time being a the following timestamp format: 2023-10-10T02:24:35.895. 
+Allows for Pctel low/high band hardcoding and time offset for matching pctel measurements to waypoints. If time offset is 0 the start of the pctel file was assumed to be the same time as the first waypoint.
+
 - MCode v5.9.2 -
 Temporary build that incorporates pixel x and pixel y output for DAS measurements.
 
